@@ -16,17 +16,17 @@ const (
 )
 
 func main() {
-	http.HandleFunc("/v1/", handleProxy)
+	http.HandleFunc("/", handleProxy)
 	fmt.Println("Server is running on 0.0.0.0:8080")
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }
 
 func handleProxy(w http.ResponseWriter, r *http.Request) {
 	// Check API key
-	if !validateAPIKey(r) {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
-		return
-	}
+	//if !validateAPIKey(r) {
+	//	http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	//	return
+	//}
 
 	log.Printf("Received request: %s %s", r.Method, r.URL.Path)
 
@@ -64,11 +64,11 @@ func handleProxy(w http.ResponseWriter, r *http.Request) {
 	proxy.ServeHTTP(w, r)
 }
 
-func validateAPIKey(r *http.Request) bool {
-	// Check for API key in Authorization header
-	authHeader := r.Header.Get("Authorization")
-	return authHeader == "Bearer "+apiKey
-}
+//func validateAPIKey(r *http.Request) bool {
+//	// Check for API key in Authorization header
+//	authHeader := r.Header.Get("Authorization")
+//	return authHeader == "Bearer "+apiKey
+//}
 
 type streamTransport struct {
 	http.RoundTripper
